@@ -1,0 +1,231 @@
+fileFormatVersion: 2
+guid: 201ed547b69b04fd2b01efab6fbea266
+timeCreated: 1457233449
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: blob_0
+    21300002: blob_1
+    21300004: blob_2
+    21300006: blob_3
+    21300008: blob_4
+    21300010: blob_5
+    21300012: blob_6
+    21300014: blob_7
+    21300016: blob_8
+    21300018: blob_9
+    21300020: blob_10
+    21300022: blob_11
+    21300024: blob_12
+    21300026: blob_13
+    21300028: blob_14
+    21300030: blob_15
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: blob_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 202
+        width: 37
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blob_1
+      rect:
+        serializedVersion: 2
+        x: 124
+        y: 194
+        width: 55
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blob_2
+      rect:
+        serializedVersion: 2
+        x: 248
+        y: 186
+        width: 73
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blob_3
+      rect:
+        serializedVersion: 2
+        x: 372
+        y: 178
+        width: 92
+        height: 92
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blob_4
+      rect:
+        serializedVersion: 2
+        x: 495
+        y: 170
+        width: 111
+        height: 110
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blob_5
+      rect:
+        serializedVersion: 2
+        x: 619
+        y: 161
+        width: 130
+        height: 130
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blob_6
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 100
+        width: 42
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blob_7
+      rect:
+        serializedVersion: 2
+        x: 286
+        y: 100
+        width: 43
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blob_8
+      rect:
+        serializedVersion: 2
+        x: 418
+        y: 100
+        width: 44
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blob_9
+      rect:
+        serializedVersion: 2
+        x: 551
+        y: 100
+        width: 45
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blob_10
+      rect:
+        serializedVersion: 2
+        x: 139
+        y: 8
+        width: 36
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blob_11
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 7
+        width: 34
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blob_12
+      rect:
+        serializedVersion: 2
+        x: 313
+        y: 5
+        width: 34
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blob_13
+      rect:
+        serializedVersion: 2
+        x: 398
+        y: 3
+        width: 37
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blob_14
+      rect:
+        serializedVersion: 2
+        x: 483
+        y: 2
+        width: 40
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: blob_15
+      rect:
+        serializedVersion: 2
+        x: 569
+        y: 0
+        width: 42
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
