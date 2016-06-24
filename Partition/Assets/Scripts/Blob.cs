@@ -89,6 +89,13 @@ public class Blob : MonoBehaviour {
 		}
 	}
 
+	public void sonMovement(Vector2 pos,BlobSon blobSon){
+		Vector2 v2 = (Vector2)pos - (Vector2)transform.position;
+		
+		float angle = (Mathf.Atan2 (v2.y, v2.x)* Mathf.Rad2Deg) + 90;
+		blobSon.transform.parent.rotation = Quaternion.Euler(new Vector3(0,0,angle));
+	}
+
 	public bool sonMovement(Vector2 pos, int id, int best){
 		bool res = false;
 		Vector2 v2 = (Vector2)pos - (Vector2)transform.position;

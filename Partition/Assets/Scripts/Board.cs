@@ -277,8 +277,11 @@ public class Board : MonoBehaviour {
 					int best = snapSon(touchPos, currentBlob, touchID);
 					if (best != -1){
 						if (blobs [currentBlob].notAlredyChild(best)){
+							//TODO: Changing dots-son relation
 							dots[best].father = currentBlob;
 							dots[best].childTouch = touchID;
+							//blobs[best] = blobs[currentBlob].getSon(touchID);
+
 							Debug.Log("$$$$$ currentBlob: "+dots[best].father);
 							Debug.Log("$$$$$ currentTouch: "+dots[best].childTouch);
 							if (blobs [currentBlob].sonMovement(dots [best].transform.position, touchID, best)){
