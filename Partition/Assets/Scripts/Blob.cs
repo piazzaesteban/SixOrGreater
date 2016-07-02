@@ -46,19 +46,21 @@ public class Blob : MonoBehaviour {
 		}
 	}
 
-	public void createSon(int id){
+	public BlobSon createSon(int id){
 		Debug.Log("createSon");
 		Debug.Log("blobCurrentSize1: "+ blobCurrentSize);
+		BlobSon bs = null;
 		if (blobCurrentSize >= 1) {
 			Debug.Log("blobCurrentSize >= 1");
 			GameObject blobSon = Instantiate (Resources.Load("blobSon"),transform.position, Quaternion.identity) as GameObject;
 			blobSon.transform.parent = transform;
-			BlobSon bs = blobSon.GetComponent<BlobSon>();
+			bs = blobSon.GetComponent<BlobSon>();
 			lastSon = bs;
 			blobCurrentSize --;
-			bs.Initialize(blobCurrentSize, id);
+			bs.Initialize(blobCurrentSize, id, index);
 		}
 		Debug.Log("blobCurrentSize2: "+ blobCurrentSize);
+		return bs;
 	}
 
 	public BlobSon getSon(int id){
@@ -72,7 +74,7 @@ public class Blob : MonoBehaviour {
 		return null;
 	}
 
-	public void sonMovement(Vector2 pos, int id){
+	/*public void sonMovement(Vector2 pos, int id){
 		Vector2 v2 = (Vector2)pos - (Vector2)transform.position;
 
 		float angle = (Mathf.Atan2 (v2.y, v2.x)* Mathf.Rad2Deg) + 90;
@@ -87,16 +89,43 @@ public class Blob : MonoBehaviour {
 				//Debug.Log("Child not found!!!: " + blobSon.touchID + " "+id );
 			}
 		}
-	}
+	}*/
 
-	public void sonMovement(Vector2 pos,BlobSon blobSon){
+	public void sonMovement1(Vector2 pos, BlobSon blobSon){
 		Vector2 v2 = (Vector2)pos - (Vector2)transform.position;
 		
 		float angle = (Mathf.Atan2 (v2.y, v2.x)* Mathf.Rad2Deg) + 90;
-		blobSon.transform.parent.rotation = Quaternion.Euler(new Vector3(0,0,angle));
+		blobSon.parentCurrentSize = blobCurrentSize;
+
+		if (blobSon != null){
+			//Debug.Log("blobSon.transform"+blobSon.transform);
+			//Debug.Log("blobSon.transform"+blobSon.transform);
+			blobSon.transform.rotation = Quaternion.Euler(new Vector3(0,0,angle));
+		}
 	}
 
-	public bool sonMovement(Vector2 pos, int id, int best){
+	public bool sonMovement(Vector2 pos,BlobSon blobSon, int best){
+		bool res = false;
+		Vector2 v2 = (Vector2)pos - (Vector2)transform.position;
+		
+		float angle = (Mathf.Atan2 (v2.y, v2.x)* Mathf.Rad2Deg) + 90;
+		if (blobSon!=null){
+			blobSon.transform.rotation = Quaternion.Euler(new Vector3(0,0,angle));
+			blobSon.sonIndex = best;
+		}
+		else{
+			Debug.Log("BLOB SON IS NULL!!");
+			return false;
+		}
+
+		if (blobCurrentSize == 0) {
+			res = true;
+		}
+		return res;
+	}
+
+
+	/*public bool sonMovement(Vector2 pos, int id, int best){
 		bool res = false;
 		Vector2 v2 = (Vector2)pos - (Vector2)transform.position;
 		
@@ -117,7 +146,7 @@ public class Blob : MonoBehaviour {
 			res = true;
 		}		
 		return res;
-	}
+	}*/
 
 	public bool notAlredyChild(int best){
 		bool res = true;

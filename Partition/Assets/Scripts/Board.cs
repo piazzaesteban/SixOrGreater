@@ -15,6 +15,7 @@ public class Board : MonoBehaviour {
 	int partitions;
 	public int maxPartitions;
 	int currentBlob = -1;
+	BlobSon currentSon = null;
 	int nID = 0;
 	int antTouchID = 0;
 	int touchID = 0;
@@ -178,7 +179,12 @@ public class Board : MonoBehaviour {
 		int fallers = 0;
 		for (int h = 0; h< blobs.Length; h++) {
 			if (blobs[h]!= null){
-				if (blobs[h].blobCurrentSize ==0 && !blobs[h].beenAbsorbed && blobs[h].transform.childCount == 0 && !blobs[h].hasCollapsed && !blobs[h].falling && !stopAbsorbing){
+				if (blobs[h].blobCurrentSize ==0 &&
+				    !blobs[h].beenAbsorbed && blobs[h].transform.childCount == 0 &&
+				    !blobs[h].hasCollapsed &&
+				    !blobs[h].falling &&
+				    !stopAbsorbing &&
+				    !blobs[h].isSon){
 					int att = getAttracted(h);
 					if (att!= -1){
 						blobs[h].beenAbsorbed = true;
@@ -243,21 +249,27 @@ public class Board : MonoBehaviour {
 
 					if (currentBlob != -1) {
 						Debug.Log("currentBlob != -1");
-						if (dots[currentBlob].father != -1 && dots[currentBlob].childTouch != -1){
-							Debug.Log("dots[currentBlob].father: "+dots[currentBlob].father);
+						if (blobs[currentBlob].isSon){
+							currentSon = (BlobSon)blobs[currentBlob];
+
+							blobs[currentBlob]= null;
+							currentBlob= currentSon.parentIndex;
+							Debug.Log("¬¬¬¬¬¬¬¬¬¬Is son");
+							/*Debug.Log("dots[currentBlob].father: "+dots[currentBlob].father);
 							Debug.Log("dots[currentBlob].childTouch: "+ dots[currentBlob].childTouch);
 							touchID = dots[currentBlob].childTouch;
 							currentBlob = dots[currentBlob].father;
 
 							dots[currentBlob].father = -1;
-							dots[currentBlob].childTouch = -1;
+							dots[currentBlob].childTouch = -1;*/
 						}
 						else{
-							Debug.Log("else createSon currentBlob: "+ currentBlob);
-							Debug.Log("else createSon blobs [currentBlob]: "+ blobs [currentBlob]);
-							Debug.Log("else createSon touchID: "+ touchID);
-							blobs [currentBlob].createSon(touchID);
-							Debug.Log("update bloooooooooob index: ");
+							//Debug.Log("else createSon currentBlob: "+ currentBlob);
+							//Debug.Log("else createSon blobs [currentBlob]: "+ blobs [currentBlob]);
+							//Debug.Log("else createSon touchID: "+ touchID);
+							currentSon = blobs [currentBlob].createSon(touchID);
+							Debug.Log("¬¬¬¬¬¬¬¬¬¬ NOT son");
+							//Debug.Log("update bloooooooooob index: ");
 						}
 					} 
 					//getBestDot2(touchPos);
@@ -265,8 +277,8 @@ public class Board : MonoBehaviour {
 				break;
 			case TouchPhase.Moved:
 				//Debug.Log("Touch moved!");
-				if (currentBlob != -1){
-					blobs [currentBlob].sonMovement(touchPos, touchID);
+				if (currentSon != null){
+					blobs [currentBlob].sonMovement1(touchPos, currentSon);
 				}
 				else{
 					//Debug.Log("No current blob!");
@@ -274,44 +286,92 @@ public class Board : MonoBehaviour {
 				break;			
 			case TouchPhase.Ended:
 				if (currentBlob != -1){
+					Debug.Log("Touch ended");
 					int best = snapSon(touchPos, currentBlob, touchID);
 					if (best != -1){
-						if (blobs [currentBlob].notAlredyChild(best)){
+						Debug.Log("best no -1: "+best);
+						Debug.Log("currentBlob: "+currentBlob);
+						if (blobs [best] == null && touchID != -1){
+							Debug.Log("blobs best null");
 							//TODO: Changing dots-son relation
-							dots[best].father = currentBlob;
-							dots[best].childTouch = touchID;
-							//blobs[best] = blobs[currentBlob].getSon(touchID);
-
+							//dots[best].father = currentBlob;
+							//dots[best].childTouch = touchID;
+							blobs[best] = currentSon;//blobs[currentBlob].getSon(touchID);
 							Debug.Log("$$$$$ currentBlob: "+dots[best].father);
 							Debug.Log("$$$$$ currentTouch: "+dots[best].childTouch);
-							if (blobs [currentBlob].sonMovement(dots [best].transform.position, touchID, best)){
+							if (blobs [currentBlob].sonMovement(dots [best].transform.position, (BlobSon)blobs[best],best)){
 								partition (blobs [currentBlob].partition (),0,currentBlob);
 							}
 							if (isTutorial){
 								camera.SendMessage("Snap");
 							}
-
 						}
 						else{
-							blobs [currentBlob].deleteSon(touchID);
+							Debug.Log("Else best no null");
+							if (blobs[best].isSon){
+								Debug.Log("Destroy son 1");
+								BlobSon bs =  (BlobSon)blobs[best];
+								blobs[currentBlob].deleteSon(bs.touchID);
+								blobs[currentSon.sonIndex] = null;
+							}
 						}
 					}
 					else{
-						blobs [currentBlob].deleteSon(touchID);
+						Debug.Log("Else best es 1");
+						if (currentSon!= null){
+							Debug.Log("Destroy son 2");
+							blobs[currentBlob].deleteSon(currentSon.touchID);
+							blobs[currentSon.sonIndex] = null;
+							Debug.Log("Destroy son 3");
+						}
 					}
 				}
+				currentSon = null;
 				currentBlob = -1;
 				touchID = 0;
 				break;
 			case TouchPhase.Canceled:
 				if (currentBlob != -1){
+					Debug.Log("Touch ended");
 					int best = snapSon(touchPos, currentBlob, touchID);
 					if (best != -1){
-						if (blobs [currentBlob].sonMovement(dots [best].transform.position, touchID, best)){
-							partition (blobs [currentBlob].partition (),0,currentBlob);
+						Debug.Log("best no -1");
+						if (blobs [best] == null){
+							Debug.Log("blobs best null");
+							//TODO: Changing dots-son relation
+							//dots[best].father = currentBlob;
+							//dots[best].childTouch = touchID;
+							blobs[best] = blobs[currentBlob].getSon(touchID);
+							Debug.Log("$$$$$ currentBlob: "+dots[best].father);
+							Debug.Log("$$$$$ currentTouch: "+dots[best].childTouch);
+							if (blobs [currentBlob].sonMovement(dots [best].transform.position, (BlobSon)blobs[best],best)){
+								partition (blobs [currentBlob].partition (),0,currentBlob);
+							}
+							if (isTutorial){
+								camera.SendMessage("Snap");
+							}
+						}
+						else{
+							Debug.Log("Else best no null");
+							if (blobs[best].isSon){
+								Debug.Log("Destroy son 1");
+								BlobSon bs =  (BlobSon)blobs[best];
+								blobs[currentBlob].deleteSon(bs.touchID);
+								blobs[currentSon.sonIndex] = null;
+							}
+						}
+					}
+					else{
+						Debug.Log("Else best es 1");
+						if (currentSon!= null){
+							Debug.Log("Destroy son 2");
+							blobs[currentBlob].deleteSon(currentSon.touchID);
+							blobs[currentSon.sonIndex] = null;
+							Debug.Log("Destroy son 3");
 						}
 					}
 				}
+				currentSon = null;
 				currentBlob = -1;
 				touchID = 0;
 				break;
@@ -394,17 +454,14 @@ public class Board : MonoBehaviour {
 		}
 		for (int i = 0; i< arr.Length; i++) {
 			if (arr[i] != -1){
-				if (blobs[arr[i]] != null){
-					blobs[arr[i]].blobCurrentSize++;
-				}
-				else{
-					createWhiteBlob(arr[i]);
-//					GameObject blob = Instantiate (Resources.Load("blob"),dots[arr[i]].transform.position, Quaternion.identity) as GameObject;
-//					Blob blobScr = blob.GetComponent<Blob>();
-//					blobScr.Initialize(0,arr[i]);
-//					blobs[arr[i]] = blobScr;
-//					dots[arr[i]].father = -1;
-//					dots[arr[i]].childTouch = -1;
+				if(blobs[arr[i]] != null){
+					if (!blobs[arr[i]].isSon){
+						blobs[arr[i]].blobCurrentSize++;
+					}
+					else{
+						blobs [arr[i]] = null;
+						createWhiteBlob(arr[i]);
+					}
 				}
 			}
 		}

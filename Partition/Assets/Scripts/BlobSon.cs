@@ -6,12 +6,14 @@ public class BlobSon : Blob {
 	public int parentCurrentSize;
 	public int sonIndex;
 	public int touchID;
+	public int parentIndex;
 	public SpriteRenderer rend;
 
-	public void Initialize(int pCS, int touch){
+	public void Initialize(int pCS, int touch, int index){
 		parentCurrentSize = pCS;
 		touchID = touch;
 		isSon = true;
+		parentIndex = index;
 	}
 
 	// Use this for initialization

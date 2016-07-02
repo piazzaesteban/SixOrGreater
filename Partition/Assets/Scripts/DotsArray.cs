@@ -19,13 +19,14 @@ public class DotsArray : MonoBehaviour {
 			//float targetaspect = 16.0f / 9.0f;
 			dots = new Dot[80];
 			Debug.Log("New dot array");
-			float unit = windowaspect * 0.6f;
+			float unit = windowaspect * 0.75f;
+			float unitHeight = Mathf.Sqrt(unit*unit - unit*unit/4);
 			//GameObject dot1 = Instantiate (Resources.Load("dot"),new Vector2(unit,unit), Quaternion.identity) as GameObject;
 			int i = 0;
 			for (int h = 0; h < boardSizeH; h++) {
 				if (h%2 == 0){
 					float posX = -(((boardSizeW -1)/2)*unit);
-					float posY = -(boardSizeH/2)*(unit) + h*(unit);
+					float posY = -(boardSizeH/2)*(unitHeight) + h*(unitHeight);
 					for (int w = 0; w < boardSizeW -1; w++) {
 						Vector2 pos = new Vector2(posX,posY);
 						int totNei  = 6;
@@ -47,9 +48,9 @@ public class DotsArray : MonoBehaviour {
 					}
 				}
 				else{
-					float posX = -((boardSizeW)/2)*unit + 0.5f;
+					float posX = -((boardSizeW)/2)*unit + (unit/2);
 					//Debug.Log("!=%2" + posX);
-					float posY = -(boardSizeH/2)*unit + h*unit;
+					float posY = -(boardSizeH/2)*unitHeight + h*unitHeight;
 					for (int w = 0; w < boardSizeW; w++) {
 						Vector2 pos = new Vector2(posX,posY);
 						int totNei  = 6;
