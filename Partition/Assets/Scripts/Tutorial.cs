@@ -9,6 +9,7 @@ public class Tutorial : MonoBehaviour {
 	Button next;
 	public int s;
 	int snaped = 0;
+	int snaped2 = 0;
 	GameObject [] arrows;
 
 	void Start(){
@@ -127,7 +128,7 @@ public class Tutorial : MonoBehaviour {
 			if (arrows[1] != null){
 				Destroy(arrows[1]);
 			}
-			texto.text = "And so on...";
+			texto.text = "Notice that when spliting a blob, it always leave a white blob in it's place";
 			s++;
 			break;
 		case 13:
@@ -140,7 +141,7 @@ public class Tutorial : MonoBehaviour {
 			s++;
 			break;
 		case 15:
-			texto.text = "But they will be absorbed by the largest blob around them";
+			texto.text = "But they will be absorbed by the LARGEST blob around them";
 			StartCoroutine (waitForAbsorb(b));
 			s++;
 			break;
@@ -178,24 +179,86 @@ public class Tutorial : MonoBehaviour {
 			Application.LoadLevel (1);
 			LevelPicker.levelPick.currentLevel = 4;
 			break;
+		case 24:
+			b.stopAbsorbing = true;
+			texto.text = "One more thing! Compare this two sets";
+			s++;
+			break;
+		case 25:
+			b.stopAbsorbing = true;
+			texto.text = "The biggest blob will absorb all white blobs in both cases";
+			s++;
+			break;
+		case 26:
+			next.interactable = false;
+			snaped = 0;
+			texto.text = "But when you stretch a blob its core gets SMALLER";
+			Quaternion rotate1 = Quaternion.Euler(0, 0, 60);
+			arrows[0] = Instantiate (Resources.Load("arrow"),DotsArray.dotsArre.dots[41].transform.position, rotate1) as GameObject;
+			StartCoroutine (waitForSnap(1,1,arrows[0]));
+			break;
+		case 27:
+			next.interactable = false;
+			if (arrows[0] != null){
+				Destroy(arrows[0]);
+			}
+			arrows[1] = Instantiate (Resources.Load("arrow"),DotsArray.dotsArre.dots[41].transform.position, Quaternion.identity) as GameObject;
+			StartCoroutine (waitForSnap(2,0,arrows[1]));
+			s++;
+			break;
+		case 28:
+			texto.text = "And smaller means they won't absorb white blobs if there's a bigger one around";
+			s++;
+			break;
+		case 29:
+			b.stopAbsorbing = false;
+			s++;
+			break;
+		case 30:
+			texto.text = "After that, you can DOUBLE TAP the blob unstretch it";
+			next.interactable = false;
+			snaped = 0;
+			//Quaternion rotate3 = Quaternion.Euler(0, 0, -120);
+			//arrows[1] = Instantiate (Resources.Load("arrow"),DotsArray.dotsArre.dots[53].transform.position, rotate3) as GameObject;
+			StartCoroutine (waitForSnap(1,4,null));
+			s++;
+			break;
+		/*case 31:
+			texto.text = "After that, you can DOUBLE TAP the blob unstretch it";
+			StartCoroutine (waitForSnap(2,4,null));
+			s++;
+			break;*/
+		case 31:
+			LevelPicker.levelPick.currentLevel = 12;
+			LevelPicker.levelPick.levels[11].passed = true;
+			LevelPicker.levelPick.levels[12].unlocked = true;
+			Application.LoadLevel (1);
+
+			break;
 		}
 	
 	}
 
 	public IEnumerator waitForSnap(int number, int type, GameObject arrow){
-		while (snaped < number) {
-			yield return null;
+		if (type >=3){
+			while (snaped2 < number) {
+				yield return null;
+			}
+		}
+		else{
+			while (snaped < number) {
+				yield return null;
+			}
 		}
 		if (arrow != null){
 			Destroy(arrow);
 		}
-		if (type == 0){
+		if (type%2 == 0){
 			next.interactable = true;
 		} else{
 			s++;
 			switchTutorial();
 		}
-
 		yield return null;
 		
 	}
@@ -215,6 +278,9 @@ public class Tutorial : MonoBehaviour {
 
 	void Snap(){
 		snaped++;
+	}
+	void Snap2(){
+		snaped2++;
 	}
 
 

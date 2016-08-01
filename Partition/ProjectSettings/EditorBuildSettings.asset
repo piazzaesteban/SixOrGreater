@@ -27,3 +27,5 @@ EditorBuildSettings:
     path: Assets/Scenes/Tut3.unity
   - enabled: 1
     path: Assets/Scenes/Tut4.unity
+  - enabled: 1
+    path: Assets/Scenes/Tut5.unity

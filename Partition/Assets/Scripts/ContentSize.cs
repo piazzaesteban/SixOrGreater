@@ -15,7 +15,7 @@ public class ContentSize : MonoBehaviour {
 	void Update () {
 		//rect.pivot = rect.localPosition.normalized;
 		if (Vector3.Distance(antDist, rect.localPosition) != 0) {
-			rect.localScale = Vector3.one + (Vector3.one*rect.localPosition.magnitude/800);
+			rect.localScale = Vector3.one + (Vector3.one*rect.localPosition.magnitude/700);
 			antDist = rect.localPosition;
 			//Debug.Log ("Dist: "+Vector3.Distance(antDist, rect.localScale) );
 		}

@@ -5,6 +5,7 @@ using System.Collections;
 public class LevelDescriptor {
 	public int [] levelDesc;
 	public int partitions;
-	int level;	
-	int passed;
+	public int level;	
+	public bool passed;
+	public bool unlocked;
 }

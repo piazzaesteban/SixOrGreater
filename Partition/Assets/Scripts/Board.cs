@@ -3,12 +3,15 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class Board : MonoBehaviour {
+	int levelNumber;
 	float heightLimit;
 	float widthLimit;
 	int boardSizeW = 12;
 	int boardSizeH = 7;
 	Dot [] dots;
 	Blob [] blobs;
+	public RectTransform panel;
+	public Text multipleUsesText;
 	public Camera camera;
 	public Text partitionsText;
 	public Text levelText;
@@ -22,6 +25,8 @@ public class Board : MonoBehaviour {
 	bool beingAttract = false;
 	bool collapsing = false;
 	float timeLeft;
+	float tryAgainTime;
+	bool tryAgain;
 	public bool isTutorial;
 	public bool letCollapse = true;
 	public bool stopAbsorbing;
@@ -30,63 +35,9 @@ public class Board : MonoBehaviour {
 	void Awake () {
 		blobs = new Blob[80];
 		timeLeft = 0.5f;
+		tryAgainTime = 1.0f;
+		tryAgain = false;
 		float windowaspect = (float)Screen.width / (float)Screen.height;
-		//float targetaspect = 16.0f / 9.0f;
-//
-//
-//		float unit = windowaspect * 0.6f;
-//		//GameObject dot1 = Instantiate (Resources.Load("dot"),new Vector2(unit,unit), Quaternion.identity) as GameObject;
-//		int i = 0;
-//		for (int h = 0; h < boardSizeH; h++) {
-//			if (h%2 == 0){
-//				float posX = -(((boardSizeW -1)/2)*unit);
-//				float posY = -(boardSizeH/2)*(unit) + h*(unit);
-//				for (int w = 0; w < boardSizeW -1; w++) {
-//					Vector2 pos = new Vector2(posX,posY);
-//					int totNei  = 6;
-//					GameObject dot = Instantiate (Resources.Load("dot"),pos, Quaternion.identity) as GameObject;
-//					Dot dotScr = dot.GetComponent<Dot>();
-//					dot.transform.parent  = transform;
-//					dots[i] = dotScr;
-//
-//					if (h==0 || h == boardSizeH-1 ){
-//						totNei -=2;
-//					}
-//					if (w == 0 || w == boardSizeW-2 ){
-//						totNei -= 1;
-//					}
-//
-//					dotScr.Initialize(i,h,w,totNei);
-//					posX += unit;
-//					i++;
-//				}
-//			}
-//			else{
-//				float posX = -((boardSizeW)/2)*unit + 0.5f;
-//				//Debug.Log("!=%2" + posX);
-//				float posY = -(boardSizeH/2)*unit + h*unit;
-//				for (int w = 0; w < boardSizeW; w++) {
-//					Vector2 pos = new Vector2(posX,posY);
-//					int totNei  = 6;
-//					GameObject dot = Instantiate (Resources.Load("dot"),pos, Quaternion.identity) as GameObject;
-//					Dot dotScr = dot.GetComponent<Dot>();
-//					dot.transform.parent  = transform;
-//					dots[i] = dotScr;
-//
-//					if (h==0 || h == boardSizeH-1 ){
-//						totNei -=2;
-//					}
-//					if (w == 0 || w == boardSizeW-1 ){
-//						totNei -= 3;
-//					}
-//					dotScr.Initialize(i,h,w,totNei);
-//					i++;
-//					posX += unit;
-//				}
-//			}
-//
-//		}
-//		fillNeighbors ();
 	}
 
 	void Start () {
@@ -94,44 +45,15 @@ public class Board : MonoBehaviour {
 		initializeLevel ();	
 	}
 
-//	void fillNeighbors (){
-//		for (int i =0; i< dots.Length; i++) {
-//			int j = 0;
-//			if (dots[i].index -1 >=0 && dots[i-1].row == dots[i].row){
-//				dots[i].neighbors[j] = dots[i].index -1;
-//				j++;
-//			}
-//			if (dots[i].index +1 < dots.Length && dots[i+1].row == dots[i].row){
-//				dots[i].neighbors[j] = dots[i].index +1;
-//				j++;			
-//			}
-//			if (dots[i].index - 12 >=0 && dots[i-12].row == dots[i].row-1){
-//				dots[i].neighbors[j] = dots[i].index -12;
-//				dots[i].down[0] = dots[i].index -12;
-//				dots[i].left[0] = dots[i].index -12;
-//				j++;			
-//			}
-//			if (dots[i].index - 11 >=0 && dots[i-11].row == dots[i].row-1){
-//				dots[i].neighbors[j] = dots[i].index -11;
-//				dots[i].down[1] = dots[i].index -11;
-//				dots[i].right[0] = dots[i].index -11;
-//				j++;			
-//			}
-//			if (dots[i].index + 12 < dots.Length && dots[i+12].row == dots[i].row+1){
-//				dots[i].neighbors[j] = dots[i].index +12;
-//				dots[i].right[1] = dots[i].index +12;
-//				dots[i].up[0] = dots[i].index +12;
-//				j++;
-//			}
-//			if (dots[i].index + 11 < dots.Length && dots[i+11].row == dots[i].row+1){
-//				dots[i].neighbors[j] = dots[i].index +11;
-//				dots[i].up[1] = dots[i].index +11;
-//				dots[i].left[1] = dots[i].index +11;
-//				j++;
-//			}
-//		}
-//	}
+
 	public void initializeLevel (){
+		if (panel != null){
+			panel.gameObject.SetActive(false);
+		}
+		if (multipleUsesText != null){
+			multipleUsesText.gameObject.SetActive(false);
+		}
+		levelNumber = LevelPicker.levelPick.currentLevel;
 		Debug.Log ("Current level: " + LevelPicker.levelPick.currentLevel);
 		LevelDescriptor ld = LevelPicker.levelPick.levels[LevelPicker.levelPick.currentLevel];
 		for (int i = 0; i< ld.levelDesc.Length; i++) {
@@ -143,11 +65,7 @@ public class Board : MonoBehaviour {
 			}
 		}
 		partitions = ld.partitions; 
-		if(!isTutorial){
-			partitionsText.text = ""+partitions;
-			levelText.text = ""+ LevelPicker.levelPick.currentLevel; 
-		}
-
+		specialInitialization();
 	}
 
 	public void createNewBlob(int i, int size){
@@ -176,6 +94,7 @@ public class Board : MonoBehaviour {
 	void Update () {
 		//Debug.Log ("DO: "+ Input.deviceOrientation);
 		int count = 0;
+		int sonCount = 0;
 		int fallers = 0;
 		for (int h = 0; h< blobs.Length; h++) {
 			if (blobs[h]!= null){
@@ -207,6 +126,8 @@ public class Board : MonoBehaviour {
 					}
 				} else if (blobs[h].falling){
 					fallers++;
+				} else if (blobs[h].isSon){
+					sonCount++;
 				}
 			}
 			else{
@@ -215,15 +136,25 @@ public class Board : MonoBehaviour {
 		}
 		if (!isTutorial){
 			if (count >= 80) {
-				LoadNextLevel ();
+				createPanel();
+				//LoadNextLevel ();
 			}
 			
-			if (partitions < 0 && !collapsing && !beingAttract && count < 80 && fallers ==0) {
+			if (partitions <= 0 && sonCount == 0 && !collapsing && !beingAttract && count < 80 && fallers ==0) {
 				timeLeft -= Time.deltaTime;
 			}
 			if ( timeLeft < 0 )
 			{
-				ReloadLevel(1);
+				multipleUsesText.gameObject.SetActive(true);
+				multipleUsesText.text = "No more splits left!";
+				tryAgain = true;
+			}
+			if(tryAgain){
+				tryAgainTime -= Time.deltaTime;
+				if (tryAgainTime <=0){
+					ReloadLevel(1);
+					Debug.Log("RELOAD RELOAD");
+				}
 			}
 		}
 
@@ -248,31 +179,29 @@ public class Board : MonoBehaviour {
 					currentBlob = getBestDot2(touchPos); // GET BEST DOT
 
 					if (currentBlob != -1) {
-						Debug.Log("currentBlob != -1");
 						if (blobs[currentBlob].isSon){
 							currentSon = (BlobSon)blobs[currentBlob];
 
 							blobs[currentBlob]= null;
-							currentBlob= currentSon.parentIndex;
-							Debug.Log("¬¬¬¬¬¬¬¬¬¬Is son");
-							/*Debug.Log("dots[currentBlob].father: "+dots[currentBlob].father);
-							Debug.Log("dots[currentBlob].childTouch: "+ dots[currentBlob].childTouch);
-							touchID = dots[currentBlob].childTouch;
-							currentBlob = dots[currentBlob].father;
+							currentBlob= currentSon.parentIndex;					
 
-							dots[currentBlob].father = -1;
-							dots[currentBlob].childTouch = -1;*/
 						}
 						else{
-							//Debug.Log("else createSon currentBlob: "+ currentBlob);
-							//Debug.Log("else createSon blobs [currentBlob]: "+ blobs [currentBlob]);
-							//Debug.Log("else createSon touchID: "+ touchID);
-							currentSon = blobs [currentBlob].createSon(touchID);
-							Debug.Log("¬¬¬¬¬¬¬¬¬¬ NOT son");
-							//Debug.Log("update bloooooooooob index: ");
+							if(myTouch.tapCount >=2){
+								int [] sons = blobs[currentBlob].retrieveSons();
+								int i = 0;
+								while (sons[i] != -1){
+									blobs[sons[i]] = null;
+									i++;
+								} 
+								if (isTutorial){
+									camera.SendMessage("Snap2");
+								}
+							}else{
+								currentSon = blobs [currentBlob].createSon(touchID);
+							}
 						}
 					} 
-					//getBestDot2(touchPos);
 				}
 				break;
 			case TouchPhase.Moved:
@@ -323,6 +252,9 @@ public class Board : MonoBehaviour {
 							blobs[currentBlob].deleteSon(currentSon.touchID);
 							blobs[currentSon.sonIndex] = null;
 							Debug.Log("Destroy son 3");
+							if (isTutorial){
+								camera.SendMessage("Snap2");
+							}
 						}
 					}
 				}
@@ -596,25 +528,43 @@ public class Board : MonoBehaviour {
 		blobs[index].setSize(size);
 	}
 
+	public void specialInitialization(){
+		if(!isTutorial){
+			partitionsText.text = ""+partitions;
+			levelText.text = ""+ levelNumber;
+		}
+		if (levelNumber == 4){
+			multipleUsesText.gameObject.SetActive(true);
+			multipleUsesText.text = "Split the smallest blob, so the bigger ones absorb one blob each";
+		}
+	}
+
+	public void createPanel(){
+		multipleUsesText.gameObject.SetActive(false);
+		panel.gameObject.SetActive(true);
+	}
+
 	public void LoadNextLevel(){
-		cleanDots();
+		Debug.Log("load next");
+		LevelPicker.levelPick.levels[levelNumber].passed = true;
 		LevelPicker.levelPick.currentLevel++;
-		initializeLevel ();
+		LevelPicker.levelPick.levels[levelNumber+1].unlocked = true;
+		LevelPicker.levelPick.save();
+		if (LevelPicker.levelPick.currentLevel != 11){
+			initializeLevel ();
+		}
+		else{
+			Application.LoadLevel (6);
+			Debug.Log("Tutorial loaded");
+		}
+
 		//Debug.Log("Next Level: "+LevelPicker.levelPick.currentLevel);
 	}
 
 	public void ReloadLevel(int level){
-		cleanDots();
 		Application.LoadLevel (1);
 	}
-
-	public void cleanDots(){
-		for (int i = 0; i< 80; i++) {
-			dots[i].father = -1;
-			dots[i].childTouch = -1;
-		}
-	}
-
+	
 	public void destroyBlobs(int [] arrBlobs){
 		for(int i = 0; i<arrBlobs.Length; i++){
 			if (blobs[arrBlobs[i]] != null){

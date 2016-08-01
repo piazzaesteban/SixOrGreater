@@ -78,23 +78,28 @@ public class LevelGenerator : MonoBehaviour {
 		posibStr += "\n data.levels [1].partitions = 2;";
 		Debug.Log(posibStr);*/
 
-		int k = 40;
+		int k = 4;
+		int cont = 0;
 		String posibStr = "";
 		for(int i = 0 ; i< 13; i++){
 			for (int j = 0; j < 13; j++){
-				Posibility posN1 = new Posibility(arrays[12],0);
+				Posibility posN1 = new Posibility(arrays[10],0);
 				//posibStr += "data.levels ["+(i+k)+"] = new LevelDescriptor ();data.levels["+(i+k)+"].levelDesc = new int[80]";
 				//posibStr += printIntArray(posN1.mapLevelDescriptor())+";";
 				//posibStr += "\n data.levels ["+(i+k)+"].partitions = 1;";
 				//k++;
 				int[] levelN1 = posN1.mapLevelDescriptor();
 
-				Posibility posN2 = new Posibility(arrays[1],0);
+				Posibility posN2 = new Posibility(arrays[5],0); // SIGUE 
 				posibStr += "data.levels ["+(i+k)+"] = new LevelDescriptor ();data.levels["+(i+k)+"].levelDesc = new int[80]";
 				posibStr += printIntArray(posN2.mapLevelDescriptor(levelN1))+";";
 				posibStr += "\n data.levels ["+(i+k)+"].partitions = 2;";
 				k++;
 				Debug.Log(posibStr);
+				cont++;
+				if (cont%18 ==0){
+					posibStr = "";
+				}
 			}
 
 

@@ -298,55 +298,11 @@ Prefab:
     m_RemovedComponents:
     - {fileID: 11484148, guid: 03046c85a7f1b48e4a501ff8b3cd93ad, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 03046c85a7f1b48e4a501ff8b3cd93ad, type: 2}
-  m_RootGameObject: {fileID: 1000029324}
   m_IsPrefabParent: 0
---- !u!1 &1000029324
+--- !u!1 &1000029324 stripped
 GameObject:
-  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 195850, guid: 03046c85a7f1b48e4a501ff8b3cd93ad, type: 2}
   m_PrefabInternal: {fileID: 1000029323}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1000029326}
-  - 114: {fileID: 1000029325}
-  m_Layer: 0
-  m_Name: Board
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1000029325
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11478398, guid: 03046c85a7f1b48e4a501ff8b3cd93ad,
-    type: 2}
-  m_PrefabInternal: {fileID: 1000029323}
-  m_GameObject: {fileID: 1000029324}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9960b296fb6ea4b0592991823d50267d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  camera: {fileID: 828756970}
-  partitionsText: {fileID: 0}
-  levelText: {fileID: 0}
-  maxPartitions: 0
-  isTutorial: 1
-  letCollapse: 1
-  stopAbsorbing: 0
---- !u!4 &1000029326
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 436302, guid: 03046c85a7f1b48e4a501ff8b3cd93ad, type: 2}
-  m_PrefabInternal: {fileID: 1000029323}
-  m_GameObject: {fileID: 1000029324}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
 --- !u!1 &1329790865
 GameObject:
   m_ObjectHideFlags: 0
@@ -535,10 +491,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 56716647}
   m_RootOrder: 1
-  m_AnchorMin: {x: .394000024, y: .591653109}
-  m_AnchorMax: {x: .519000053, y: .732346952}
-  m_AnchoredPosition: {x: 14, y: 8.5}
-  m_SizeDelta: {x: 252, y: 3}
+  m_AnchorMin: {x: .138444424, y: .605261505}
+  m_AnchorMax: {x: .847035944, y: .804986238}
+  m_AnchoredPosition: {x: 3.5, y: 1.5}
+  m_SizeDelta: {x: 1, y: -3}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1778475029
 MonoBehaviour:
@@ -560,7 +516,7 @@ MonoBehaviour:
     m_BestFit: 1
     m_MinSize: 10
     m_MaxSize: 50
-    m_Alignment: 0
+    m_Alignment: 1
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0

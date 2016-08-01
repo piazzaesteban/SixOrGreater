@@ -192,6 +192,19 @@ public class Blob : MonoBehaviour {
 		}
 	}
 
+	public int[] retrieveSons(){
+		int [] arre = new int[6]{-1,-1,-1,-1,-1,-1};
+		int i = 0;
+		foreach(Transform child in transform){
+			BlobSon blobSon = child.GetComponent<BlobSon>();
+			arre[i] = blobSon.index;
+			blobSon.autodestruction();
+			blobCurrentSize++;
+			i++;
+		}
+		return arre;
+	}
+
 	public virtual int collapse(){
 		StartCoroutine (collapseCoroutine ());
 		hasCollapsed = true;
